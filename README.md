@@ -1,6 +1,6 @@
 # AI Blog Generator
 
-A Node.js application that generates blog posts using OpenAI's powerful language models.
+A Node.js application that generates blog posts using Writer AI.
 
 ## Features
 

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        textarea, input {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Blog Generator</h1>
+    <form id="blogForm">
+        <input type="text" id="role" placeholder="Enter the role (e.g., Tech Writer, Food Blogger)" required>
+        <textarea id="prompt" rows="5" placeholder="Enter your blog topic or prompt" required></textarea>
+        <button type="submit">Generate Blog</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('blogForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const role = document.getElementById('role').value;
+            const prompt = document.getElementById('prompt').value;
+            const result = document.getElementById('result');
+            
+            result.textContent = 'Generating blog...';
+            
+            try {
+                const response = await fetch('/generate-blog', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ role, prompt })
+                });
+                
+                const data = await response.json();
+                result.textContent = data.blog;
+            } catch (error) {
+                result.textContent = 'Error generating blog. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>
